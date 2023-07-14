@@ -2,10 +2,19 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import socket from './socketConnection.js'
 function App() {
   const [count, setCount] = useState(0)
 
+socket.on('connect', () => {
+  
+	console.log('connected',socket.id) // x8WIv7-mJelg7on_ALbx
+})
+
+socket.on('disconnect', () => {
+	console.log(socket.id) // undefined
+})
+  
   return (
     <>
       <div>
@@ -22,7 +31,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Edit <code>src/App.js</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
