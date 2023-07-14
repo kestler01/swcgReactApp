@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client'
-//import socket io client 
+import React from 'react'
+//import socket io client and react for the context
 
 const { VITE_LOCALAPIURL, VITE_REMOTEAPIURL } = import.meta.env 
 // get urls from .env
@@ -18,4 +19,14 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
     socket = io(VITE_REMOTEAPIURL, options)
 }
 
-export default socket
+socket.on('connect', () => {
+		console.log('Connecting', socket)
+	})
+
+socket.on('disconnect', () => {
+		console.log('Disconnecting')
+	})
+
+const SocketContext = React.createContext()
+
+export{socket, SocketContext}

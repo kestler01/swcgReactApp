@@ -2,21 +2,16 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import socket from './socketConnection.js'
+import {socket, SocketContext} from './socketConnection'
+
+
 function App() {
   const [count, setCount] = useState(0)
+  const [connected, setConnected] = useState(false)
 
-socket.on('connect', () => {
-  
-	console.log('connected',socket.id) // x8WIv7-mJelg7on_ALbx
-})
 
-socket.on('disconnect', () => {
-	console.log(socket.id) // undefined
-})
-  
   return (
-    <>
+    <SocketContext.Provider value={socket}>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -37,7 +32,7 @@ socket.on('disconnect', () => {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+    </SocketContext.Provider>
   )
 }
 
