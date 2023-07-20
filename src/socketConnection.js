@@ -19,7 +19,9 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
     socket = io(VITE_REMOTEAPIURL, options)
 }
 
-
+socket.on('error', (data) => {
+        console.log(data)
+    })
 
 const SocketContext = React.createContext()
 

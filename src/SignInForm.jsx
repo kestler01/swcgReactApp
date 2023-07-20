@@ -4,9 +4,7 @@ import { SocketContext } from './socketConnection.js'
 const SignUpForm = (props) => {
     const [state, setState] = useState({
         email: '',
-        password: '',
-        passwordConfirmation:'',
-        profileName: ''
+        password: ''
     })
     // destructure setUser from props
     const {setUser} = props
@@ -25,9 +23,7 @@ const SignUpForm = (props) => {
         console.log(state)
         console.log(socket)
         try{
-            const user = await socket.emit('signup', state)
-            console.log(user)
-            setUser(user)
+            socket.emit('signin', state)
         } catch(e) {
             console.log(e)
         }
@@ -36,32 +32,25 @@ const SignUpForm = (props) => {
 
     return (
         <>  
-            <h4>register a new account</h4>
+            <h4> sign in to your account </h4>
             <form onSubmit={handleSubmit}>
+                <label>email</label>
                 <input 
                     name='email' 
                     type='email' 
                     onChange={handleInputChange}>
                 </input>
-                <input 
-                    name='profileName' 
-                    type='text' 
-                    onChange={handleInputChange}>
-                </input>
+                <br></br>
+                <label>password</label>
                 <input 
                     name='password' 
                     type='password' 
                     onChange={handleInputChange}>
                 </input>
-                <input 
-                    name='passwordConfirmation' 
-                    type='password' 
-                    onChange={handleInputChange}>
-                </input>
-                <button type='submit'>submit</button>
+                <button type='submit'>login</button>
             </form>
             {/* <button>sign up with google</button> */}
-            <button>already have an account</button>
+            <button>register an account</button>
         </>
     )
 }
