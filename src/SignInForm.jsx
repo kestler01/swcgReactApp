@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
+import { Link } from 'react-router-dom'
 
 const SignUpForm = (props) => {
     const [state, setState] = useState({
@@ -34,23 +35,27 @@ const SignUpForm = (props) => {
         <>  
             <h4> sign in to your account </h4>
             <form onSubmit={handleSubmit}>
-                <label>email</label>
-                <input 
-                    name='email' 
-                    type='email' 
-                    onChange={handleInputChange}>
-                </input>
+                <label>email
+                    <input 
+                        name='email' 
+                        type='email' 
+                        onChange={handleInputChange}>
+                    </input>
+                </label>
                 <br></br>
-                <label>password</label>
-                <input 
-                    name='password' 
-                    type='password' 
-                    onChange={handleInputChange}>
-                </input>
+                <label>password
+                    <input 
+                        name='password' 
+                        type='password' 
+                        onChange={handleInputChange}>
+                    </input>
+                </label>
+                <br></br>
                 <button type='submit'>login</button>
             </form>
+            <br></br>
             {/* <button>sign up with google</button> */}
-            <button>register an account</button>
+            <Link to={'/sign-up'}><button>register an account</button></Link>
         </>
     )
 }

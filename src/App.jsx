@@ -6,14 +6,18 @@ import './App.css'
 
 import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
+import CreateGameForm from './createGameForm'
+import GameIndex from './gameIndex'
 
 function App() {
   const [user,setUser] = useState(null)
   const [connected, setConnected] = useState(false)
 
   useEffect(()=>{
-    let timeoutID // used to prevent auto logout if user reconnects within time limit, set on disconnect
+    // these socket listeners need to interact with the app's state, but we can't try and run set state before the app is mounted. They will live here. 
 
+    let timeoutID // used to prevent auto logout if user reconnects within time limit, set on disconnect
+    
     socket.on('connect', (data) => {
       console.log('Connecting', data)
       setConnected(true)
@@ -48,15 +52,27 @@ function App() {
   
   return (
     <SocketContext.Provider value={socket}>
-      {!connected? <h1>Connecting...</h1> :
+      {!connected? <h1>Connecting...</h1> : <></> }
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={ <p>landing page for /</p>}/>
-          <Route path="/sign-up" element={<SignUpForm setUser={setUser}/>} />
-          <Route path="/sign-in" element={<SignInForm setUser={setUser}/>} />
+          {!user? 
+          <>
+            {/* <Route exact path="/" element={ <p>landing page for /</p>}/> */}
+            <Route path="/sign-up" element={<SignUpForm/>} />
+            <Route path="/sign-in?" element={<SignInForm/>} />
+          </>
+          :
+          <>
+            <Route path='/' element={
+              <>
+                <CreateGameForm></CreateGameForm>
+                <GameIndex></GameIndex>
+              </>}
+            />
+          </>
+          }
         </Routes>
       </BrowserRouter>
-      }
     </SocketContext.Provider>
   )
 }

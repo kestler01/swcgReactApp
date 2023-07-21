@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
+import { Link } from 'react-router-dom'
 
 const SignUpForm = (props) => {
     const [state, setState] = useState({
@@ -8,8 +9,6 @@ const SignUpForm = (props) => {
         passwordConfirmation:'',
         profileName: ''
     })
-    // destructure setUser from props
-    const {setUser} = props
     // bring in the socket object from context
     const socket = useContext(SocketContext)
 
@@ -25,9 +24,7 @@ const SignUpForm = (props) => {
         console.log(state)
         console.log(socket)
         try{
-            const user = await socket.emit('signup', state)
-            console.log(user)
-            setUser(user)
+            socket.emit('signup', state)
         } catch(e) {
             console.log(e)
         }
@@ -61,7 +58,7 @@ const SignUpForm = (props) => {
                 <button type='submit'>submit</button>
             </form>
             {/* <button>sign up with google</button> */}
-            <button>already have an account</button>
+            <Link to={'/sign-in'}><button>already have an account</button></Link>
         </>
     )
 }
