@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {socket, SocketContext} from './socketConnection'
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate, Navigate} from "react-router-dom"
 
 import './App.css'
 
@@ -8,10 +8,16 @@ import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
 import CreateGameForm from './createGameForm'
 import GameIndex from './gameIndex'
+import NavBar from './navbar'
 
 function App() {
   const [user,setUser] = useState(null)
   const [connected, setConnected] = useState(false)
+
+  const navigate = useNavigate()
+useEffect(() =>{
+  navigate('/gameHub')
+},[user])
 
   useEffect(()=>{
     // these socket listeners need to interact with the app's state, but we can't try and run set state before the app is mounted. They will live here. 
@@ -32,13 +38,20 @@ function App() {
       console.log('Signing up error', data)
     })
 
-    socket.on('signinSuccess', (data) => {
+    socket.on('signinSuccess', (data)  => {
       console.log('Signing in', data)
       setUser(data)
+
     })
 
     socket.on('signinFailure', (data) => {
       console.log('Signing in error', data)
+    })
+
+    socket.on('signoutSuccess', (data) => {
+      console.log('in on signoutSuccess',data)
+      setUser(null)
+      navigate('/sign-in')
     })
 
     socket.on('disconnect', (data) => {
@@ -46,33 +59,34 @@ function App() {
       setConnected(false)
       timeoutID = setTimeout(() => {
         setUser('null')
+        navigate('/sign-in')
       }, 10000); // if not reconnected in 10 second log out the user
 	})
   },[])
   
   return (
     <SocketContext.Provider value={socket}>
-      {!connected? <h1>Connecting...</h1> : <></> }
-      <BrowserRouter>
+      {!connected && <h1>Connecting...</h1>}
+      {user && <NavBar user setUser/> }
         <Routes>
           {!user? 
           <>
-            {/* <Route exact path="/" element={ <p>landing page for /</p>}/> */}
-            <Route path="/sign-up" element={<SignUpForm/>} />
-            <Route path="/sign-in?" element={<SignInForm/>} />
+            <Route path="/sign-up" element={<SignUpForm setUser/> } />
+            <Route path="/sign-in?" element={<SignInForm setUser/>} />
+            <Route path="*" element={<Navigate to="/sign-in" />} />
           </>
           :
           <>
-            <Route path='/' element={
+            <Route path="/gameHub" element={
               <>
                 <CreateGameForm></CreateGameForm>
                 <GameIndex></GameIndex>
               </>}
             />
+            <Route path="*" element={<Navigate to="/gamehub" />} />
           </>
           }
         </Routes>
-      </BrowserRouter>
     </SocketContext.Provider>
   )
 }

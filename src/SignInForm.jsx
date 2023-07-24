@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
-import { Link } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 const SignUpForm = (props) => {
     const [state, setState] = useState({
@@ -8,9 +8,10 @@ const SignUpForm = (props) => {
         password: ''
     })
     // destructure setUser from props
-    const {setUser} = props
+    const {user,setUser} = props
     // bring in the socket object from context
     const socket = useContext(SocketContext)
+
 
     function handleInputChange(event) {
         setState({
@@ -19,12 +20,20 @@ const SignUpForm = (props) => {
         })
     }
 
+    // const handleSignInSuccess = (response) => {
+    //     console.log(response)
+    //     if (response.status === ok) {
+    //         // setUser(response.data)
+    //     }
+    // }
+
     const handleSubmit = async (event) => {
         event.preventDefault()
         console.log(state)
         console.log(socket)
         try{
             socket.emit('signin', state)
+            
         } catch(e) {
             console.log(e)
         }
@@ -33,6 +42,7 @@ const SignUpForm = (props) => {
 
     return (
         <>  
+        {user && (<Navigate to='/gameHub' replace='true'></Navigate>)}
             <h4> sign in to your account </h4>
             <form onSubmit={handleSubmit}>
                 <label>email

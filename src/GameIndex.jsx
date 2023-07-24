@@ -21,16 +21,19 @@ const GameIndex = (props) => {
 
     return(
         <table>
-            <tr>
-                <th>Name</th>
-                <th>Faction Open</th>
-            </tr>
-
-            {games.map((game, key) => {
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Faction Open</th>
+                </tr>
+            </thead>
+            <tbody>
+            {games?.map((game, key) => {
                 <tr onClick={handleGameJoin} key={key}> <td>{game.name} </td>
                 <td>{game.empire?'rebels' : 'empire'}</td>
                 </tr>
             })}
+            </tbody>
         </table>
     )
 }

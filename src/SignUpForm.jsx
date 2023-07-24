@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
 import { Link } from 'react-router-dom'
 
-const SignUpForm = (props) => {
+const SignUpForm = () => {
     const [state, setState] = useState({
         email: '',
         password: '',

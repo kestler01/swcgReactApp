@@ -36,7 +36,7 @@ const CreateGameForm = (props) => {
                 </label>
                 <label> gameType
                     <select name='gameType' onChange={handleInputChange}>
-                        <option selected value="default">default</option>
+                        <option defaultValue value="default">default</option>
                     </select>
                 </label>
                 <br></br>
