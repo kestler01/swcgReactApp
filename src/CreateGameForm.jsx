@@ -1,11 +1,13 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
+// import { SocketContext } from './App'
+
 
 const CreateGameForm = (props) => {
     const [state, setState] = useState({
     })
     // bring in the socket object from context
-    const user = props.user
+    const {user} = props
     const socket = useContext(SocketContext)
 
     function handleInputChange(event) {
@@ -20,12 +22,7 @@ const CreateGameForm = (props) => {
         console.log(state)
         console.log(socket)
         console.log(user)
-        try{
-            socket.emit('createGame', state)
-        } catch(e) {
-            console.log(e)
-        }
-        
+        socket.emit('createGame', state)
     }
         return (
         <>  
@@ -34,13 +31,14 @@ const CreateGameForm = (props) => {
                 <label> game name
                     <input type="text" name='name' onChange={handleInputChange}></input>
                 </label>
+                <br></br>
                 <label> gameType
                     <select name='gameType' onChange={handleInputChange}>
                         <option defaultValue value="default">default</option>
                     </select>
                 </label>
                 <br></br>
-                <button type='submit'>login</button>
+                <button type='submit'>create</button>
             </form>
         </>
     )

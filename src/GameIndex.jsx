@@ -1,5 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { SocketContext } from './socketConnection.js'
+// import { SocketContext } from './App'
+
 
 const GameIndex = (props) => {
     const [games, setGames] = useState(null)
@@ -8,6 +10,7 @@ const GameIndex = (props) => {
     const socket = useContext(SocketContext)
 
     useEffect(() => {
+        console.log('in game index useEffect')
         socket.emit('getGameIndex',)
         socket.on('getGameIndexSuccess', (data) => setGames(data))
     },[])
@@ -16,7 +19,7 @@ const GameIndex = (props) => {
         console.log(event.target)
         const gameId = games[event.target.key]._id
         console.log(gameId)
-        socket.emit('joinGame', gameId)
+        socket.emit('joinGame', {gameId, user})
     }
 
     return(

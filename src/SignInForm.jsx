@@ -1,17 +1,20 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
+// import { SocketContext } from './App'
+
 import { Link} from 'react-router-dom'
 
-const SignUpForm = (props) => {
+
+
+const SignUpForm = () => {
     const [state, setState] = useState({
         email: '',
         password: ''
     })
-    // destructure setUser from props
-    const {user,setUser} = props
-    // bring in the socket object from context
-    const socket = useContext(SocketContext)
 
+    // bring in the socket object from context
+        const socket = useContext(SocketContext)
+    console.log('in signUpForm, socket is', socket)
 
     function handleInputChange(event) {
         setState({
@@ -31,18 +34,12 @@ const SignUpForm = (props) => {
         event.preventDefault()
         console.log(state)
         console.log(socket)
-        try{
-            socket.emit('signin', state)
-            
-        } catch(e) {
-            console.log(e)
-        }
-        
+        socket.emit('signin', state)
     }
 
     return (
         <>  
-        {user && (<Navigate to='/gameHub' replace='true'></Navigate>)}
+        {/* {user && (<Navigate to='/gameHub' replace='true'></Navigate>)} */}
             <h4> sign in to your account </h4>
             <form onSubmit={handleSubmit}>
                 <label>email

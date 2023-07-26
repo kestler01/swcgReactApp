@@ -1,38 +1,39 @@
-import { Link, NavLink } from 'react-router-dom'
-import { Navbar} from 'react-bootstrap'
+/* eslint-disable react/prop-types */
+import { Link } from 'react-router-dom'
+// // import { Navbar} from 'react-bootstrap'
 import { useContext } from 'react'
 import { SocketContext}  from './socketConnection'
+// import { SocketContext } from './App'
+
+
+
 const NavBar = (props) => {
 
-    const {user, setUser} = props
-
     const socket = useContext(SocketContext)
+    console.log('in navbar page props:', props)
     
-
-    const handleAbout = () => {
+    const {user} = props 
+    function handleAbout() {
         console.log('clicked about button')
     }
 
-    const onSignOutSuccess = (res) => {
-        console.log('inSignOutSuccess',res)
-        // if(res.status === 'ok'){
-        //     setUser(null)
-        // }
-        // else{
-        //     console.log('an error occurred while signing out', res)
-        // }
+    const handleSignOutSuccess = (res) => {
+        console.log('in handle sign out success callback:', res)
     }
+
     const handleSignOut = () => {
-        socket.emit('signOut', socket,onSignOutSuccess)
+        console.log('clicked sign out button')
+        socket.emit('signout', user,handleSignOutSuccess)
     }
 
-    return (<NavBar className='myNavbar'>
-
-        <NavLink to={'/about'} onClick={handleAbout}>About</NavLink>
-        <NavLink to={'/profile'} >Profile</NavLink>
-        <NavLink to={'/gameHub'}>New Games</NavLink>
-        <NavLink to={'/'} onClick={handleSignOut}>signOut</NavLink>
-    </NavBar>)
+    return (
+    <div className='myNavbar'>
+        <span>welcome {user?.profileName}</span>
+        <Link to={'/about'} onClick={handleAbout}>About</Link>
+        <Link to={'/profile'} >Profile</Link>
+        <Link to={'/gameHub'}>New Games</Link>
+        <Link to={'/'} onClick={handleSignOut}>signOut</Link>
+    </div>)
 }
 
 export default NavBar

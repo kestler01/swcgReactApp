@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
+// import { SocketContext } from './App'
 import { Link } from 'react-router-dom'
 
 const SignUpForm = () => {
