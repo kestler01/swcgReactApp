@@ -1,12 +1,13 @@
 import { io } from 'socket.io-client'
 import React from 'react'
 // import socket io client and react for the context
-
-const { VITE_LOCALAPIURL, VITE_REMOTEAPIURL } = import.meta.env 
+// only variables prefixed with VITE_ are exposed to the meta env import for vite !
+const { VITE_LOCALAPIURL, VITE_REMOTEAPIURL, VITE_SECRET } = import.meta.env 
 // get urls from .env
 let socket = null
 const options = {
-    addTrailingSlash: true
+	addTrailingSlash: true,
+	auth: { secret: VITE_SECRET },
 }
 //detect whether we are on localhost 
 if(!socket){

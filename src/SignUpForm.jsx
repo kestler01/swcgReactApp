@@ -33,7 +33,7 @@ const SignUpForm = () => {
     }
 
     return (
-        <>  
+        <div className='dataPad'>  
             <h4>register a new account</h4>
             <form onSubmit={handleSubmit}>
                 <input 
@@ -60,7 +60,7 @@ const SignUpForm = () => {
             </form>
             {/* <button>sign up with google</button> */}
             <Link to={'/sign-in'}><button>already have an account</button></Link>
-        </>
+        </div>
     )
 }
 

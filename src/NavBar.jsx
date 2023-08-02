@@ -23,7 +23,7 @@ const NavBar = (props) => {
 
     const handleSignOut = () => {
         console.log('clicked sign out button')
-        socket.emit('signout', user,handleSignOutSuccess)
+        socket.emit('signout', user, handleSignOutSuccess)
     }
 
     return (

@@ -8,15 +8,17 @@ import CreateGameForm from './createGameForm'
 import GameIndex from './gameIndex'
 
 const GameHub= (props) => {
+    // const [gameHubSocket, setGameHubSocket] = useState(null)
 
+    // setGameHubSocket(io(`${socket.io.uri}/gameHub`, {auth: {user}})) 
 
     return (
-        <Container fluid className='gameHub'>
-            <Row>
-                <Col >
+        <Container fluid className='gameHub maxH100'>
+            <Row className='maxH100'>
+                <Col className='maxH100 '>
                     <CreateGameForm {...props}></CreateGameForm>
                 </Col>
-                <Col >
+                <Col className='maxH100'>
                     <GameIndex {...props}></GameIndex>
                 </Col>
             </Row>

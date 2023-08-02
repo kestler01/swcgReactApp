@@ -1,7 +1,7 @@
 
 import { useState, useEffect} from 'react'
 import {socket, SocketContext} from './socketConnection'
-import { Routes, Route, Navigate, useNavigate} from "react-router-dom"
+import { Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom"
 
 import './App.css'
 
@@ -10,14 +10,16 @@ import SignInForm from './SignInForm'
 import NavBar from './navbar'
 import GameHub from './GameHub'
 import Profile from './Profile'
+import GameContainer from './GameContainer'
 
   console.log('initiated app.jsx, socket and socket context are', socket, SocketContext)
 
 function App() {
   const [user,setUser] = useState(null)
   const [connected, setConnected] = useState(false)
-
+  const [game, setGame] = useState(null)
   const navigate = useNavigate()
+  const location = useLocation()
   // useEffect(() =>{
   //   console.log('in user useEffect', user)
   //   if(user){
@@ -49,6 +51,7 @@ function App() {
     socket.on('signinSuccess', (data)  => {
       console.log('Signing in', data)
       setUser(data)
+      console.log(socket.auth)
       navigate('/gameHub')
     })
 
@@ -60,6 +63,11 @@ function App() {
       console.log('in on signoutSuccess',data)
       setUser(null)
       navigate('/sign-in')
+    })
+
+    socket.on('createGameSuccess', (data) => {
+      console.log('Creating game success!', data)
+      setGame(data)
     })
 
     socket.on('disconnect', (data) => {
@@ -81,11 +89,22 @@ function App() {
     }
   },[connected])
 
+  useEffect(() => {
+    console.log('in game change use useEffect', game)
+    
+    // console.log('Location test', location)
+    if(game && !(location.pathname === '/game') ){
+      navigate('/game')
+    } else {
+      navigate('/')
+    }
+  },[game])
+
   return (
     <SocketContext.Provider value={socket}>
       <>
       {!connected && <h1>Connecting...</h1>}
-      {user && <NavBar user={user} />}
+      {user && (!game && <NavBar user={user}/>)}
         <Routes>
 
           {!user?
@@ -97,11 +116,13 @@ function App() {
             :
           <>
             {/* <Route element={<NavBar user setUser/>}></Route> */}
-              <Route path="/about" element={<h2> about page goes here </h2>}/>
-              <Route path="/gameHub" element={<GameHub user={user}></GameHub>}/>
-              <Route path="/profile" element={<Profile user={user} setUser={setUser}/>}/>
-              <Route path="*" element={<Navigate to="/gameHub"/>}/>
-            
+            <Route path="/about" element={<h2> about page goes here </h2>}/>
+            <Route path="/gameHub" element={<GameHub user={user} setGame={setGame}></GameHub>}/>
+            <Route path="/profile" element={<Profile user={user} setUser={setUser}/>}/>
+            <Route path='/game' element={<GameContainer user={user} game={game} setGame={setGame}/>}/>
+            {game? <Route path="*" element={<Navigate to="/game"/>}/>:
+            <Route path="*" element={<Navigate to="/gameHub"/>}/>
+            }
           </>
           }
         </Routes>

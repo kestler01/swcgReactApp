@@ -1,14 +1,13 @@
 import { useState, useContext } from 'react'
 import { SocketContext } from './socketConnection.js'
-// import { SocketContext } from './App'
-
-
+import isSocketPromiseOk from './socketPromiseHelper.js'
+import { useNavigate } from 'react-router-dom'
 const CreateGameForm = (props) => {
     const [state, setState] = useState({
     })
     // bring in the socket object from context
     const {user} = props
-    const socket = useContext(SocketContext)
+    const navigate = useNavigate()
 
     function handleInputChange(event) {
         setState({
@@ -19,10 +18,15 @@ const CreateGameForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(state)
-        console.log(socket)
-        console.log(user)
-        socket.emit('createGame', state)
+
+        const data = {...state, ...user}
+        console.log('data before creating game emit', data)
+        const resData = await isSocketPromiseOk('createGame', data)
+        console.log('data after creating game emit', resData)
+        if (resData.status === 'ok') {
+            navigate('/game')
+        }
+
     }
         return (
         <>  

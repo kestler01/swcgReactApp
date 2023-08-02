@@ -1,7 +1,120 @@
+:root{
+    --cardHeight: calc(100vh / 10);
+    --cardWidth:calc(var(--cardHeight)*5/7) ;
+    --cardFontSize: 5px
+    --gameRowHeight:calc(100vh / 7)px;
+    --rebel: rgba(255, 0, 0, 75);
+    --empire: rgba(0, 0, 165, 75);
+    
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
+  height: 100%;
   padding: 2rem;
   text-align: center;
   justify-content: center;
+}
+html{
+  margin: 0;
+  height: 100%;
+}
+body {
+  margin: 0;
+  height: 100%;
+  background-image: url('../public/assets/imperialDoors.svg');
+  background-position-x: center;
+  background-position-y: center;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: rgb(86, 247, 247) !important;
+}
+.dataPad {
+  /* color: rgb(86, 247, 247) !important; */
+  background-color: rgba(53, 143, 159, 0.586) !important;
+  border-radius: 2rem !important;
+  border-color: rgb(192, 255, 255) !important;
+  border: 4px solid !important;
+  margin: auto !important;
+  width: 50% !important;
+  position: absolute !important;
+  top:30% !important;
+}
+.dataPad > button {
+  background: none;
+  border-color: aqua;
+}
+
+.bs-list-group {
+  width:'90%'; 
+  justify-content:'center'; 
+  margin: auto;
+  background-color: transparent !important; 
+  color: rgb(86, 247, 247) !important;
+}
+
+.tableContainer {
+  overflow: scroll !important;
+  height: 80% !important;
+}
+
+.gameHub{
+  height: 100% ; 
+}
+
+.maxH100{
+  height:100% !important;
+  max-height: 100% !important;
+  overflow: hidden;
+}
+
+.embeddedIcon{
+  height: 1.5rem !important;
+  background-color: transparent !important;
+}
+
+.mediumIcon{
+  height: 4rem !important;
+  background-color: transparent !important;
+}
+
+.gameBoard{
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(0deg, var(--empire) 0%, transparent 40%, transparent 66%, var(--rebel) 100%);
+  /* font-family: 'Star Wars', sans-serif; */
+  display: flex;
+  flex-direction: column;
+} 
+
+.gameField {
+    width: 100%;
+    /* min-height: var(--gameRowHeight)px; */
+    height: 100%;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    padding:0 !important;
+    /* gap: 10px; */
+}
+
+.forceColumn{
+  flex-direction: column;
+  background-image: linear-gradient(0deg, var(--empire) 0%, transparent 50%, var(--rebel) 100%);
+  padding:0 !important;
+}
+.forceCell{
+  height:calc(100%/7);
+  border: solid 2px gray;
+}
+
+#forceCube{
+  background-color: white !important;
+  border-radius: 4px;
+  height: 1.5rem !important;
+  width:1.5rem !important;
+  margin: auto !important;
+  z-index: 2;
 }
